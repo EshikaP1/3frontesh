@@ -103,9 +103,6 @@ title: Drink
     }
 </style>
 
-
-
-
 <style>
 	.modal-backdrop {
 		display: none;

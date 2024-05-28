@@ -8,6 +8,7 @@ title: Exercise
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <h3>Get Actual Weight</h3>
 
+
 <h3>What is the Actual Weight?</h3>
 <form id="formToGetActualWeight">
     <label for="Calories Burn"><b>Calories Burn:</b></label>
@@ -28,16 +29,20 @@ title: Exercise
     <input type="text" id="Exercise" name="Exercise" /><br /><br />
     <label for="Weather Conditions"><b>Weather Conditions:</b></label>
     <input type="text" id="Weather Conditions" name="Weather Conditions" /><br /><br />
+    <label for="Duration"><b>Duration:</b></label>
+    <input type="text" id="Duration" name="Duration" /><br /><br />
     <button type="submit" value="btnToGetActualWeight" id="get_ActualWeight">GetActualWeight</button>
     <div id="getActualWeightResponse"></div>
 </form>
 <br><br><br>
+
 
 <script type="module">
 import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
     const API_URL = uri + '/api/predict'
     const createbutton = document.getElementById("get_ActualWeight")
     createbutton.addEventListener("click", Predict);
+
 
     function Predict(event) {
         const API_URL = uri + '/api/predict'
@@ -46,6 +51,7 @@ import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
         //const drink = formData.get("Drink");
         //console.log("got form data Drink")
         //const calories = formData.get("Calories");
+
 
         const form = document.getElementById('formToGetActualWeight')
         const Calories_Burn = form.elements['Calories Burn'].value
@@ -57,28 +63,41 @@ import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
         const Exercise_Intensity = form.elements['Exercise Intensity'].value
         const Exercise = form.elements['Exercise'].value
         const Weather_Conditions = form.elements['Weather Conditions'].value
+        const Duration = form.elements['Duration'].value
         //const Actual_Weight = parseInt(form.elements['Actual Weight'].value)
         const payload = {
-            Calories_Burn,
-            Dream_Weight,
+            'Calories Burn': Calories_Burn,
+            'Dream Weight': Dream_Weight,
             Age,
             Gender,
-            Heart_Rate,
+            'Heart Rate': Heart_Rate,
             BMI,
-            Exercise_Intensity,
+            'Exercise Intensity': Exercise_Intensity,
             Exercise,
-            Weather_Conditions
+            'Weather Conditions': Weather_Conditions,
+            Duration
             //Actual_Weight,
         };
         console.log(JSON.stringify(payload))
 
+
         const authOptions = {
-            ...options, 
-            method: 'POST', 
-            cache: 'no-cache', 
-            body: JSON.stringify(payload)
-        }
-        fetch(API_URL, authOptions)
+            ...options,
+            method: 'POST',
+            cache: 'no-cache',
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-Type' : 'application/json',
+                'Access-Control-Allow-Origin': 'include'
+            }
+        };
+        fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        })
         .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -151,41 +170,46 @@ import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
     }
 </style>
 
+
 <style>
-	.modal-backdrop {
-		display: none;
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.7);
-		z-index: 1;
-	}
+    .modal-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
 
-	.modal-content {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		background: #272726;
-		padding: 40px;
-		z-index: 2;
-	}
 
-	.close-modal {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		cursor: pointer;
-		background: none;
-		border: none;
-		font-size: 24px;
-		color: white;
-	}
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #272726;
+        padding: 40px;
+        z-index: 2;
+    }
 
-	.wrapper,
-	section {
-		max-width: 900px;
-	}
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: white;
+    }
+.py
+
+
+    .wrapper,
+    section {
+        max-width: 900px;
+    }
 </style>
